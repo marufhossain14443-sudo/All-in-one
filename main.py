@@ -21,9 +21,9 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # --- CONFIGURATION CONSTANTS ---
-BOT_TOKEN = "8228002569:AAHrUOXz9Zgn-qxKwGVZeCrbm8nGkNwVTUc"  
+BOT_TOKEN = "8228002569:AAH7otCILVYaW2oe3szFwbXJkjQBGpMo4cw"  
 ADMIN_ID = 8515307600              
-PHOTO_FILE_ID = "AgACAgUAAxkBAANualUhRSb7khA4QgRfD9T4LweUOT8AAvsOaxve8rFWhKJhnMxIa1cBAAMCAAN5AAM8BA"  
+PHOTO_FILE_ID = "AgACAgUAAxkBAAN-alXXQJrtBa1u9qMdD6iK9EC-a1UAAvEPaxve0rFWKXzgVqo1WbcBAAMCAAN5AAM9BA"  
 UPI_ID = "mdmaruf009@fam"
 FAMPAY_API_KEY = "FAM_53079e898dd64bfb8f30f4346456b218bb9a31dd72c717a7"
 
@@ -641,7 +641,7 @@ async def admin_root(callback: CallbackQuery):
 async def adm_manage_bal_start(callback: CallbackQuery, state: FSMContext):
     if callback.from_user.id != ADMIN_ID: return
     await callback.answer()
-    await callback.message.answer("📝 <i>যার ব্যালেন্স পরিবর্তন করতে চান তার Telegram User ID-টি পাঠান:</i>", parse_mode="HTML")
+    await callback.message.answer("📝 𝘗𝘭𝘦𝘢𝘴𝘦 𝘴𝘦𝘯𝘥 𝘵𝘩𝘦 𝘛𝘦𝘭𝘦𝘨𝘳𝘢𝘮 𝘜𝘴𝘦𝘳 𝘐𝘋 𝘰𝘧 𝘵𝘩𝘦 𝘶𝘴𝘦𝘳 𝘸𝘩𝘰𝘴𝘦 𝘣𝘢𝘭𝘢𝘯𝘤𝘦 𝘺𝘰𝘶 𝘸𝘢𝘯𝘵 𝘵𝘰 𝘮𝘰𝘥𝘪𝘧𝘺:", parse_mode="HTML")
     await state.set_state(BotStates.waiting_for_manage_bal_uid)
 
 @dp.message(BotStates.waiting_for_manage_bal_uid)
@@ -650,14 +650,14 @@ async def adm_manage_bal_uid_received(message: Message, state: FSMContext):
     try:
         target_uid = int(message.text.strip())
     except ValueError:
-        await message.answer("❌ <i>ID শুধুমাত্র সংখ্যা হতে হবে। আবার সঠিক ID পাঠান:</i>", parse_mode="HTML")
+        await message.answer("❌ 𝘐𝘋 𝘮𝘶𝘴𝘵 𝘤𝘰𝘯𝘵𝘢𝘪𝘯 𝘰𝘯𝘭𝘺 𝘯𝘶𝘮𝘣𝘦𝘳𝘴. 𝘗𝘭𝘦𝘢𝘴𝘦 𝘴𝘦𝘯𝘥 𝘢 𝘷𝘢𝘭𝘪𝘥 𝘛𝘦𝘭𝘦𝘨𝘳𝘢𝘮 𝘜𝘴𝘦𝘳 𝘐𝘋 𝘢𝘨𝘢𝘪𝘯:", parse_mode="HTML")
         return
         
     profile = db_users.get(target_uid)
     username_display = f"@{profile['username']}" if profile and profile.get("username") else f"User ({target_uid})"
     
     await state.update_data(target_uid=target_uid, username_display=username_display)
-    await message.answer(f"💰 {username_display} <i>এর ওয়ালেটে কত টাকা এড বা সাবট্রাক্ট করতে চান?\n(টাকা যোগ করতে পজিটিভ সংখ্যা যেমন <code>100</code> এবং কাটতে নেগেটিভ সংখ্যা যেমন <code>-50</code> পাঠান):</i>", parse_mode="HTML")
+    await message.answer(f"💰𝘏𝘰𝘸 𝘮𝘶𝘤𝘩 𝘸𝘰𝘶𝘭𝘥 𝘺𝘰𝘶 𝘭𝘪𝘬𝘦 𝘵𝘰 𝘢𝘥𝘥 𝘰𝘳 𝘴𝘶𝘣𝘵𝘳𝘢𝘤𝘵 𝘧𝘳𝘰𝘮 {username_display}'𝘴 𝘸𝘢𝘭𝘭𝘦𝘵?𝘚𝘦𝘯𝘥 𝘢 𝘱𝘰𝘴𝘪𝘵𝘪𝘷𝘦 𝘯𝘶𝘮𝘣𝘦𝘳 (𝘦.𝘨. <code>100</code>) 𝘵𝘰 𝘢𝘥𝘥 𝘣𝘢𝘭𝘢𝘯𝘤𝘦, 𝘰𝘳 𝘢 𝘯𝘦𝘨𝘢𝘵𝘪𝘷𝘦 𝘯𝘶𝘮𝘣𝘦𝘳 (𝘦.𝘨. <code>-50</code>) 𝘵𝘰 𝘥𝘦𝘥𝘶𝘤𝘵 𝘣𝘢𝘭𝘢𝘯𝘤𝘦.", parse_mode="HTML")
     await state.set_state(BotStates.waiting_for_manage_bal_amount)
 
 @dp.message(BotStates.waiting_for_manage_bal_amount)
@@ -666,7 +666,7 @@ async def adm_manage_bal_amount_received(message: Message, state: FSMContext):
     try:
         amount = float(message.text.strip())
     except ValueError:
-        await message.answer("❌ <i>সঠিক সংখ্যা আকারে অ্যামাউন্ট পাঠান:</i>", parse_mode="HTML")
+        await message.answer("❌𝘗𝘭𝘦𝘢𝘴𝘦 𝘴𝘦𝘯𝘥 𝘢 𝘷𝘢𝘭𝘪𝘥 𝘯𝘶𝘮𝘦𝘳𝘪𝘤 𝘢𝘮𝘰𝘶𝘯𝘵.", parse_mode="HTML")
         return
         
     data = await state.get_data()
@@ -700,7 +700,7 @@ async def adm_manage_bal_amount_received(message: Message, state: FSMContext):
 async def adm_find_user_start(callback: CallbackQuery, state: FSMContext):
     if callback.from_user.id != ADMIN_ID: return
     await callback.answer()
-    await callback.message.answer("🔍 <i>যে ইউজারের ডাটা চেক করতে চান তার Telegram User ID-টি পাঠান:</i>", parse_mode="HTML")
+    await callback.message.answer("🔍𝘗𝘭𝘦𝘢𝘴𝘦 𝘴𝘦𝘯𝘥 𝘵𝘩𝘦 𝘛𝘦𝘭𝘦𝘨𝘳𝘢𝘮 𝘜𝘴𝘦𝘳 𝘐𝘋 𝘰𝘧 𝘵𝘩𝘦 𝘶𝘴𝘦𝘳 𝘺𝘰𝘶 𝘸𝘢𝘯𝘵 𝘵𝘰 𝘷𝘪𝘦𝘸:", parse_mode="HTML")
     await state.set_state(BotStates.waiting_for_find_user_uid)
 
 @dp.message(BotStates.waiting_for_find_user_uid)
@@ -709,7 +709,7 @@ async def adm_process_find_user(message: Message, state: FSMContext):
     try:
         target_uid = int(message.text.strip())
     except ValueError:
-        await message.answer("❌ <i>সঠিক নিউমেরিক ID পাঠান:</i>", parse_mode="HTML")
+        await message.answer("❌𝘗𝘭𝘦𝘢𝘴𝘦 𝘴𝘦𝘯𝘥 𝘢 𝘷𝘢𝘭𝘪𝘥 𝘯𝘶𝘮𝘦𝘳𝘪𝘤 𝘛𝘦𝘭𝘦𝘨𝘳𝘢𝘮 𝘜𝘴𝘦𝘳 𝘐𝘋.", parse_mode="HTML")
         return
         
     await state.clear()
@@ -1028,7 +1028,22 @@ async def adm_process_broadcast(message: Message, state: FSMContext):
 # --- CORE MAIN LOOP TRIGGER RUNTIME ---
 async def main():
     logger.info("Initializing Application Polling Subsystem Context under Bot API 9.4 Parameters...")
-    await dp.start_polling(bot)
+    
+    # Railway Port Binding Protection
+    port = int(os.environ.get("PORT", 8080))
+    async def dummy_server():
+        try:
+            server = await asyncio.start_server(lambda r, w: None, '0.0.0.0', port)
+            async with server:
+                await server.serve_forever()
+        except Exception as e:
+            logger.warning(f"Dummy port binding server error: {e}")
+
+    # রান পোলিং এবং ডমি সার্ভার একসাথে ব্যাকগ্রাউন্ডে চলবে
+    await asyncio.gather(
+        dp.start_polling(bot),
+        dummy_server()
+    )
 
 if __name__ == '__main__':
     asyncio.run(main())
